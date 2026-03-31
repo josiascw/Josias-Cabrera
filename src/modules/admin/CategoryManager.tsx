@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { productService } from '../../services/productService';
 import { Category } from '../../types';
 import { X, Plus, Trash2, Loader2, Tag } from 'lucide-react';
-import { supabase } from '../../lib/supabase';
 
 interface CategoryManagerProps {
   onClose: () => void;
@@ -35,13 +34,15 @@ export default function CategoryManager({ onClose }: CategoryManagerProps) {
     if (!newCategory.name) return;
     setSaving(true);
     try {
-      const { data, error } = await supabase
-        .from('categories')
-        .insert([newCategory])
-        .select()
-        .single();
-      if (error) throw error;
-      setCategories([...categories, data as Category]);
+      const stored = localStorage.getItem('categories');
+      const currentCategories = stored ? JSON.parse(stored) : [];
+      const newCat = {
+        ...newCategory,
+        id: Math.random().toString(36).substr(2, 9)
+      };
+      const updatedCategories = [...currentCategories, newCat];
+      localStorage.setItem('categories', JSON.stringify(updatedCategories));
+      setCategories(updatedCategories);
       setNewCategory({ name: '', type: 'empapelado' });
     } catch (err) {
       console.error('Error adding category:', err);
@@ -52,9 +53,11 @@ export default function CategoryManager({ onClose }: CategoryManagerProps) {
 
   const handleDelete = async (id: string) => {
     try {
-      const { error } = await supabase.from('categories').delete().eq('id', id);
-      if (error) throw error;
-      setCategories(categories.filter(c => c.id !== id));
+      const stored = localStorage.getItem('categories');
+      const currentCategories = stored ? JSON.parse(stored) : [];
+      const updatedCategories = currentCategories.filter((c: Category) => c.id !== id);
+      localStorage.setItem('categories', JSON.stringify(updatedCategories));
+      setCategories(updatedCategories);
     } catch (err) {
       console.error('Error deleting category:', err);
     }

@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { UserProfile } from '../types';
-import { supabase } from '../lib/supabase';
 
 interface AuthState {
   user: UserProfile | null;
@@ -11,30 +10,19 @@ interface AuthState {
   refreshProfile: () => Promise<void>;
 }
 
-export const useAuthStore = create<AuthState>((set, get) => ({
+export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   loading: true,
   initialized: false,
   setUser: (user) => set({ user, loading: false, initialized: true }),
   signOut: async () => {
-    await supabase.auth.signOut();
+    localStorage.removeItem('user');
     set({ user: null });
   },
   refreshProfile: async () => {
-    const { data: { user: authUser } } = await supabase.auth.getUser();
-    if (!authUser) {
-      set({ user: null, loading: false, initialized: true });
-      return;
-    }
-
-    const { data: profile } = await supabase
-      .from('users')
-      .select('*')
-      .eq('id', authUser.id)
-      .single();
-
-    if (profile) {
-      set({ user: profile as UserProfile, loading: false, initialized: true });
+    const user = localStorage.getItem('user');
+    if (user) {
+      set({ user: JSON.parse(user) as UserProfile, loading: false, initialized: true });
     } else {
       set({ user: null, loading: false, initialized: true });
     }
