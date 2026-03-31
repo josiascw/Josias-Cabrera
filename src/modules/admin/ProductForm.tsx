@@ -17,7 +17,7 @@ export default function ProductForm({ product, onClose, onSuccess }: ProductForm
     description: product?.description || '',
     price_base: product?.price_base || 0,
     category_id: product?.category_id || '',
-    type: product?.type || 'estilo',
+    type: product?.type || 'empapelado',
     image_urls: product?.image_urls || [] as string[],
   });
 
@@ -109,7 +109,7 @@ export default function ProductForm({ product, onClose, onSuccess }: ProductForm
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-1">Tipo</label>
                 <div className="flex gap-2">
-                  {(['estilo', 'publicidad'] as const).map(t => (
+                  {(['empapelado', 'publicidad'] as const).map(t => (
                     <button
                       key={t}
                       type="button"

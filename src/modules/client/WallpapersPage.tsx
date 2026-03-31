@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Flower2, Baby, Shapes, Layers, Image as ImageIcon, Sparkles } from 'lucide-react';
+import { gsap } from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const styles = [
   {
@@ -53,35 +58,70 @@ const styles = [
   }
 ];
 
-export default function StylesPage() {
+export default function WallpapersPage() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    // Hero Animation
+    gsap.from('.hero-content', {
+      y: 60,
+      opacity: 0,
+      duration: 1,
+      ease: 'power3.out'
+    });
+
+    // Style Cards Animation
+    gsap.from('.style-card', {
+      scrollTrigger: {
+        trigger: '.styles-grid',
+        start: 'top 85%',
+      },
+      y: 60,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.15,
+      ease: 'power4.out'
+    });
+
+    // Icon floating animation
+    gsap.to('.style-icon', {
+      y: -5,
+      duration: 1.5,
+      repeat: -1,
+      yoyo: true,
+      ease: 'power1.inOut',
+      stagger: 0.2
+    });
+  }, { scope: containerRef });
+
   return (
-    <div className="bg-white">
+    <div ref={containerRef} className="bg-white">
       {/* Hero Section */}
       <section className="relative py-24 overflow-hidden bg-gray-900">
         <div className="absolute inset-0 opacity-30">
           <img 
             src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&q=80" 
             className="w-full h-full object-cover"
-            alt="Styles background"
+            alt="Wallpapers background"
           />
         </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="hero-content relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter uppercase mb-6">
-            Nuestros <span className="text-orange-600">Estilos</span>
+            Nuestros <span className="text-orange-600">Empapelados</span>
           </h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            Explora nuestra colección de estilos diseñados para dar vida a tus espacios. Desde lo clásico hasta lo vanguardista.
+            Explora nuestra colección de empapelados diseñados para dar vida a tus espacios. Desde lo clásico hasta lo vanguardista.
           </p>
         </div>
       </section>
 
       {/* Styles Grid - Modulated Session */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="styles-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {styles.map((style) => (
             <div 
               key={style.id} 
-              className="group relative bg-white rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex flex-col h-full"
+              className="style-card group relative bg-white rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex flex-col h-full"
             >
               {/* Image Container */}
               <div className="relative aspect-[16/10] overflow-hidden">
@@ -91,7 +131,7 @@ export default function StylesPage() {
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className={`absolute inset-0 bg-gradient-to-t ${style.color} opacity-60`} />
-                <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-md p-3 rounded-2xl shadow-lg">
+                <div className="style-icon absolute top-6 right-6 bg-white/90 backdrop-blur-md p-3 rounded-2xl shadow-lg">
                   <style.icon className="w-6 h-6 text-gray-900" />
                 </div>
               </div>
@@ -106,10 +146,10 @@ export default function StylesPage() {
                 </p>
                 
                 <Link 
-                  to={`/estilos/catalogo?category=${style.id}`}
+                  to={`/empapelados/${style.id}`}
                   className="inline-flex items-center gap-2 text-gray-900 font-black uppercase tracking-widest text-sm hover:text-orange-600 transition-colors group/link"
                 >
-                  Ver Catálogo 
+                  Ver Diseños 
                   <ArrowRight className="w-5 h-5 group-hover/link:translate-x-2 transition-transform" />
                 </Link>
               </div>
@@ -126,7 +166,7 @@ export default function StylesPage() {
               ¿Tienes una idea <span className="text-orange-600">especial</span>?
             </h2>
             <p className="text-lg text-gray-500 mb-10 max-w-2xl mx-auto">
-              Nuestro equipo de diseño puede crear cualquier estilo que imagines. Cuéntanos tu proyecto y lo haremos realidad.
+              Nuestro equipo de diseño puede crear cualquier diseño que imagines. Cuéntanos tu proyecto y lo haremos realidad.
             </p>
             <a 
               href="https://wa.link/hfnuto" 
@@ -134,7 +174,7 @@ export default function StylesPage() {
               rel="noopener noreferrer"
               className="inline-flex bg-gray-900 text-white px-10 py-4 rounded-2xl font-bold text-lg hover:bg-orange-600 transition-all shadow-lg shadow-gray-200"
             >
-              Contactar por WhatsApp
+              Realizar pedido
             </a>
           </div>
         </div>

@@ -10,7 +10,7 @@ export interface UserProfile {
 export interface Category {
   id: string;
   name: string;
-  type: 'estilo' | 'publicidad';
+  type: 'empapelado' | 'publicidad';
 }
 
 export interface Product {
@@ -19,7 +19,7 @@ export interface Product {
   description: string;
   price_base: number;
   category_id: string;
-  type: 'estilo' | 'publicidad';
+  type: 'empapelado' | 'publicidad';
   image_urls: string[];
   created_at: string;
 }

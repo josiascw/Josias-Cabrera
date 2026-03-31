@@ -2,7 +2,7 @@ import { supabase } from '../lib/supabase';
 import { Product, Category } from '../types';
 
 export const productService = {
-  async getProducts(type?: 'estilo' | 'publicidad'): Promise<Product[]> {
+  async getProducts(type?: 'empapelado' | 'publicidad'): Promise<Product[]> {
     let query = supabase.from('products').select('*');
     if (type) {
       query = query.eq('type', type);
@@ -12,7 +12,7 @@ export const productService = {
     return data as Product[];
   },
 
-  async getCategories(type?: 'estilo' | 'publicidad'): Promise<Category[]> {
+  async getCategories(type?: 'empapelado' | 'publicidad'): Promise<Category[]> {
     let query = supabase.from('categories').select('*');
     if (type) {
       query = query.eq('type', type);

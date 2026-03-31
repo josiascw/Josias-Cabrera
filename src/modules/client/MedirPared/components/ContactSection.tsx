@@ -20,10 +20,10 @@ export default function ContactSection() {
             href="https://wa.link/hfnuto" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-4 bg-green-500 text-white px-12 py-6 rounded-3xl font-black uppercase tracking-widest text-sm hover:bg-green-600 transition-all shadow-2xl shadow-green-200 group"
+            className="inline-flex items-center gap-4 bg-orange-600 text-white px-12 py-6 rounded-3xl font-black uppercase tracking-widest text-sm hover:bg-gray-600 transition-all shadow-2xl shadow-orange-200 group"
           >
             <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
-            Contactar Asesor
+            Contactanos
           </a>
         </div>
       </div>

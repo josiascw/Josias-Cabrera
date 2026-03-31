@@ -11,7 +11,7 @@ interface CategoryManagerProps {
 export default function CategoryManager({ onClose }: CategoryManagerProps) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
-  const [newCategory, setNewCategory] = useState({ name: '', type: 'estilo' as const });
+  const [newCategory, setNewCategory] = useState({ name: '', type: 'empapelado' as const });
   const [saving, setSaving] = useState(false);
 
   const fetchCategories = async () => {
@@ -42,7 +42,7 @@ export default function CategoryManager({ onClose }: CategoryManagerProps) {
         .single();
       if (error) throw error;
       setCategories([...categories, data as Category]);
-      setNewCategory({ name: '', type: 'estilo' });
+      setNewCategory({ name: '', type: 'empapelado' });
     } catch (err) {
       console.error('Error adding category:', err);
     } finally {
@@ -89,7 +89,7 @@ export default function CategoryManager({ onClose }: CategoryManagerProps) {
                 onChange={e => setNewCategory({ ...newCategory, type: e.target.value as any })}
                 className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-xs font-bold"
               >
-                <option value="estilo">Estilo</option>
+                <option value="empapelado">Empapelado</option>
                 <option value="publicidad">Publicidad</option>
               </select>
             </div>
