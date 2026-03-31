@@ -17,7 +17,7 @@ export default function WhatsAppButton() {
       whileHover={{ y: -5 }}
     >
       <svg 
-        viewBox="0 0 24 24" 
+        viewBox="0 0 24 25 
         className="w-8 h-8 fill-current"
         xmlns="http://www.w3.org/2000/svg"
       >
